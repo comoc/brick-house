@@ -1,31 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Very Basic 3D Viewer</title>
-  <link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.min.css?v=v2.10" type="text/css">
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<title>Very Basic 3D Viewer</title>
+		<link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.min.css?v=v2.10" type="text/css">
+		<style>
+#info {
+	pointer-events: none;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+		</style>
+	</head>
 
-<body>
-  <div id="MyViewerDiv"></div>
+	<body>
+		<div id="MyViewerDiv"></div>
 
-  <!-- The Viewer JS -->
-  <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/three.min.js"></script>
-  <script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js?v=v2.10"></script>
+		<!-- The Viewer JS -->
+		<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/three.min.js"></script>
+		<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js?v=v2.10"></script>
+		<script src="InnerSelection.js"></script>
 
-  <!-- Developer JS -->
-  <script>
-      var myViewerDiv = document.getElementById('MyViewerDiv');
-      var viewer = new Autodesk.Viewing.Private.GuiViewer3D(myViewerDiv);
-      var options = {
-          'env' : 'Local',
-          //'document' : './shaver/0.svf'
-		  'document' : './\{3D\}\ 136024/\{3D\}.svf'
-      };
-      Autodesk.Viewing.Initializer(options, function() {
-        viewer.start(options.document, options);
-      });
-  </script>
-</body>
+		<!-- Developer JS -->
+		<script>
+var myViewerDiv = document.getElementById('MyViewerDiv');
+var viewer = new Autodesk.Viewing.Private.GuiViewer3D(myViewerDiv);
+var options = {
+	'env' : 'Local',
+	//'document' : './shaver/0.svf'
+	'document' : './\{3D\}\ 136024/\{3D\}.svf'
+};
+
+Autodesk.Viewing.Initializer(options, function() {
+	viewer.start(options.document, options);
+});
+
+viewer.addEventListener(
+	Autodesk.Viewing.SELECTION_CHANGED_EVENT,
+	onItemSelected);
+
+function onItemSelected(item) {
+	console.log(item.dbIdArray[0]);
+	document.getElementById('log').innerText = 'Picked ID: ' + item.dbIdArray[0];
+}
+		</script>
+		<div id="info">
+			<p id="log"></p>
+		</div>
+	</body>
 
 </html>
