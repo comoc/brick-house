@@ -1,7 +1,7 @@
 var elemP = document.getElementById('status1');
 var w = elemP.clientWidth;
 var h = elemP.clientHeight;
-var s = w > h ? w : h;
+h = h - 4;
 
 var labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
 var data = [12, 19, 3, 5, 2, 3];
@@ -23,8 +23,8 @@ var borderColors = [
             ];
 
 var elem = document.getElementById('myChart1');
-elem.setAttribute("width", s);
-elem.setAttribute("height", s);
+elem.setAttribute("width", w);
+elem.setAttribute("height", h);
 
 var ctx = elem.getContext('2d');
 var myChart1 = new Chart(ctx, {
@@ -51,8 +51,8 @@ var myChart1 = new Chart(ctx, {
 });
 
 elem = document.getElementById('myChart2');
-elem.setAttribute("width", s);
-elem.setAttribute("height", s);
+elem.setAttribute("width", w);
+elem.setAttribute("height", h);
 
 ctx = elem.getContext('2d');
 var myChart2 = new Chart(ctx, {
@@ -79,8 +79,8 @@ var myChart2 = new Chart(ctx, {
 });
 
 elem = document.getElementById('myChart3');
-elem.setAttribute("width", s);
-elem.setAttribute("height", s);
+elem.setAttribute("width", w);
+elem.setAttribute("height", h);
 
 ctx = elem.getContext('2d');
 var myChart3 = new Chart(ctx, {
