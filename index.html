@@ -2,31 +2,60 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
 		<title>Very Basic 3D Viewer</title>
 		<link rel="stylesheet" href="https://developer.api.autodesk.com/viewingservice/v1/viewers/style.min.css?v=v2.10" type="text/css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 		<style>
-#info {
-	pointer-events: none;
-	width: 100%;
-	height: 100%;
-	z-index: 100;
-	position: absolute;
-	top: 0;
-	left: 0;
-}
+		body {
+			background-color: black;
+			color: white;
+		}
+		#container {
+			display: grid;
+			width: 100%;
+			height: 100%;
+			grid-template-columns: 70% 1fr;
+			grid-template-rows: 25%;
+			grid-template-areas:
+				"colFull col1"
+				"colFull col2"
+				"colFull col3"
+				"colFull col4"
+				;
+		}
+		.grid-item {
+			border: solid 1px white;
+		}
+		#MyViewerDiv {
+			grid-area: colFull;
+		}
+		#status1 {
+			grid-area: col1;
+		}
+		#status2 {
+			grid-area: col2;
+		}
+		#status3 {
+			grid-area: col3;
+		}
+		#status4 {
+			grid-area: col4;
+		}
 		</style>
 	</head>
 
 	<body>
-		<div id="MyViewerDiv"></div>
+		<div id="container">
+			<div class="grid-item" id="MyViewerDiv"></div>
 
-		<!-- The Viewer JS -->
-		<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/three.min.js"></script>
-		<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js?v=v2.10"></script>
-		<script src="InnerSelection.js"></script>
-
-		<!-- Developer JS -->
-		<script>
+			<!-- The Viewer JS -->
+			<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/three.min.js"></script>
+			<script src="https://developer.api.autodesk.com/viewingservice/v1/viewers/viewer3D.min.js?v=v2.10"></script>
+			<!-- Developer JS -->
+			<script>
 var myViewerDiv = document.getElementById('MyViewerDiv');
 var viewer = new Autodesk.Viewing.Private.GuiViewer3D(myViewerDiv);
 var options = {
@@ -36,7 +65,15 @@ var options = {
 };
 
 Autodesk.Viewing.Initializer(options, function() {
-	viewer.start(options.document, options);
+	viewer.start(options.document,
+		options,
+		function() {
+			var adskViewr = document.getElementsByClassName('adsk-viewing-viewer notouch');
+			var vc = adskViewr[0];
+			console.log(vc.style);
+			vc.style.position = 'relative';
+		}
+	);
 });
 
 viewer.addEventListener(
@@ -47,9 +84,20 @@ function onItemSelected(item) {
 	console.log(item.dbIdArray[0]);
 	document.getElementById('log').innerText = 'Picked ID: ' + item.dbIdArray[0];
 }
-		</script>
-		<div id="info">
-			<p id="log"></p>
+			</script>
+			<div class="grid-item" id="status1">
+				<div id="log"></div>
+			</div>
+			<div class="grid-item" id="status2">
+				<canvas id="myChart1"></canvas>
+			</div>
+			<div class="grid-item" id="status3">
+				<canvas id="myChart2"></canvas>
+			</div>
+			<div class="grid-item" id="status4">
+				<canvas id="myChart3"></canvas>
+			</div>
+			<script src="charts.js"></script>
 		</div>
 	</body>
 
