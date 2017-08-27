@@ -9,10 +9,10 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.bundle.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 		<style>
-		* {
-			margin: 0;
-			padding: 0;
-		}
+* {
+	margin: 0;
+	padding: 0;
+}
 		html {
 			height: 100vh;
 		}
@@ -83,6 +83,7 @@ Autodesk.Viewing.Initializer(options, function() {
 			vc.style.height = 'auto';
 			console.log(vc.style);
 			vc.style.position = 'relative';
+			initCustomize(viewer);
 			initCharts();
 		}
 	);
@@ -95,8 +96,10 @@ viewer.addEventListener(
 function onItemSelected(item) {
 	console.log(item.dbIdArray[0]);
 	document.getElementById('log').innerText = 'Picked ID: ' + item.dbIdArray[0];
+	toggleLight(viewer);
 }
 			</script>
+			<script src="customize.js"></script>
 			<div class="grid-item" id="status1">
 				<div id="log"></div>
 			</div>
